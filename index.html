@@ -147,6 +147,31 @@
             }
         }
 
+        /* 粒子闪烁动画 */
+        @keyframes particleSparkle {
+            0% { 
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 40px rgba(255, 215, 0, 0.6);
+            }
+            25% { 
+                text-shadow: 0 0 30px rgba(255, 255, 255, 1),
+                             0 0 60px rgba(255, 215, 0, 0.8),
+                             0 0 80px rgba(255, 165, 0, 0.6);
+            }
+            50% { 
+                text-shadow: 0 0 40px rgba(255, 255, 255, 0.9),
+                             0 0 80px rgba(255, 215, 0, 0.7),
+                             0 0 100px rgba(255, 165, 0, 0.5);
+            }
+            75% { 
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.6),
+                             0 0 40px rgba(255, 215, 0, 0.4);
+            }
+            100% { 
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            }
+        }
+
         @keyframes sophisticatedFadeIn {
             0% { 
                 opacity: 0; 
@@ -1712,15 +1737,25 @@
                 // 隐藏点击提示
                 clickContinue.style.opacity = '0';
                 
-                // 开始淡出开场动画
-                openingMask.style.opacity = '0';
+                // 创建文字粒子散落效果
+                createTextParticleEffect();
                 
-                // 开始播放音乐
+                // 开始播放音乐（用户交互后，移动端也能播放）
                 if (music) {
-                    music.play().catch(e => {
-                        console.log('音乐自动播放被阻止，需要用户交互');
+                    music.volume = 0.6; // 设置合适的音量
+                    music.play().then(() => {
+                        console.log('音乐开始播放');
+                        musicPlaying = true;
+                    }).catch(e => {
+                        console.log('音乐播放失败:', e);
+                        // 尝试用户点击后再播放
+                        document.addEventListener('touchstart', function playOnTouch() {
+                            music.play().then(() => {
+                                musicPlaying = true;
+                                document.removeEventListener('touchstart', playOnTouch);
+                            });
+                        }, { once: true });
                     });
-                    musicPlaying = true;
                 }
                 
                 setTimeout(() => {
@@ -1728,8 +1763,75 @@
                     
                     // 聚焦到狮子座
                     focusOnLeo();
-                }, 2000);
+                }, 3000); // 延长时间让粒子动画完成
             });
+        }
+
+        // 文字粒子散落效果
+        function createTextParticleEffect() {
+            const openingText = document.getElementById('opening-text');
+            const textContent = '为李星娅点亮星空';
+            
+            // 隐藏原始文字
+            openingText.style.opacity = '0';
+            
+            // 创建粒子容器
+            const particleContainer = document.createElement('div');
+            particleContainer.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+                z-index: 1001;
+            `;
+            document.getElementById('opening-mask').appendChild(particleContainer);
+            
+            // 为每个字符创建粒子
+            [...textContent].forEach((char, index) => {
+                if (char === ' ') return; // 跳过空格
+                
+                const particle = document.createElement('div');
+                particle.textContent = char;
+                particle.style.cssText = `
+                    position: absolute;
+                    color: #ffffff;
+                    font-size: 2.2rem;
+                    font-weight: 400;
+                    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                                 0 0 40px rgba(255, 215, 0, 0.6);
+                    opacity: 1;
+                    left: ${index * 45 - textContent.length * 22.5}px;
+                    top: 0px;
+                    transition: all 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                    z-index: 1002;
+                `;
+                
+                particleContainer.appendChild(particle);
+                
+                // 延迟启动粒子动画
+                setTimeout(() => {
+                    const angle = (Math.random() - 0.5) * Math.PI; // 随机角度
+                    const distance = 300 + Math.random() * 200; // 随机距离
+                    const rotateAngle = (Math.random() - 0.5) * 720; // 随机旋转
+                    
+                    particle.style.transform = `
+                        translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) 
+                        rotate(${rotateAngle}deg) 
+                        scale(0.3)
+                    `;
+                    particle.style.opacity = '0';
+                    
+                    // 添加闪烁效果
+                    particle.style.animation = 'particleSparkle 2.5s ease-out forwards';
+                }, index * 100);
+            });
+            
+            // 2.5秒后开始淡出开场动画
+            setTimeout(() => {
+                const openingMask = document.getElementById('opening-mask');
+                openingMask.style.opacity = '0';
+            }, 2500);
         }
 
         // 高级缓动函数
@@ -1828,13 +1930,34 @@
                 musicPlaying = false;
                 console.log('⏸️ 音乐已暂停');
             } else {
+                // 设置音量和其他属性
+                music.volume = 0.6;
+                music.loop = true;
+                
                 music.play().then(() => {
                     control.textContent = '🎵 音乐';
                     musicPlaying = true;
                     console.log('▶️ 音乐开始播放');
                 }).catch(e => {
                     console.log('❌ 音乐播放失败:', e);
-                    control.textContent = '🔇 播放失败';
+                    control.textContent = '🔇 点击播放';
+                    
+                    // 移动端需要用户交互才能播放音乐
+                    // 添加一次性事件监听器
+                    const playOnInteraction = () => {
+                        music.play().then(() => {
+                            control.textContent = '🎵 音乐';
+                            musicPlaying = true;
+                            console.log('▶️ 音乐在用户交互后开始播放');
+                        }).catch(err => {
+                            console.log('再次播放失败:', err);
+                        });
+                        document.removeEventListener('touchstart', playOnInteraction);
+                        document.removeEventListener('click', playOnInteraction);
+                    };
+                    
+                    document.addEventListener('touchstart', playOnInteraction, { once: true });
+                    document.addEventListener('click', playOnInteraction, { once: true });
                 });
             }
         }
