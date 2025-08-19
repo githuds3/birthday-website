@@ -7,8 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
     <title>李星娅的生日祝福 - 星空寄语</title>
-    <!-- 引入手写体字体 -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- 优化字体选择 -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,10 +21,11 @@
             height: 100%;
             overflow: hidden;
             background: #000;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Roboto, sans-serif;
+            font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Roboto, sans-serif;
             cursor: default;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: 'kern' 1, 'liga' 1;
         }
 
         #container {
@@ -65,14 +67,22 @@
         }
 
         #opening-text {
+            font-family: 'Playfair Display', 'Noto Serif SC', serif;
             color: #ffffff;
-            font-size: 2.2rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
+            font-size: 3rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            line-height: 1.2;
+            text-align: center;
             opacity: 0;
             animation: sophisticatedFadeIn 4s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
-            text-shadow: 0 4px 12px rgba(255, 255, 255, 0.15),
-                         0 2px 6px rgba(255, 255, 255, 0.25);
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.4),
+                0 0 40px rgba(255, 215, 0, 0.3),
+                0 0 60px rgba(255, 165, 0, 0.2),
+                0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1001;
         }
 
         /* 点击继续提示 */
@@ -81,41 +91,63 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
             opacity: 0;
-            animation: clickHint 2s infinite ease-in-out;
+            animation: elegantPulse 3s infinite ease-in-out;
             cursor: pointer;
-            padding: 10px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            padding: 12px 24px;
+            border: 1.5px solid rgba(255, 215, 0, 0.5);
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 215, 0, 0.1) 100%);
+            box-shadow: 
+                0 4px 20px rgba(255, 215, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            white-space: nowrap;
         }
 
         #click-continue:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateX(-50%) scale(1.05);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                rgba(255, 215, 0, 0.2) 100%);
+            border-color: rgba(255, 215, 0, 0.8);
+            transform: translateX(-50%) translateY(-2px) scale(1.05);
+            box-shadow: 
+                0 8px 30px rgba(255, 215, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
-        @keyframes clickHint {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        @keyframes elegantPulse {
+            0%, 100% { 
+                opacity: 0.7;
+                transform: translateX(-50%) scale(1);
+            }
+            50% { 
+                opacity: 1;
+                transform: translateX(-50%) scale(1.02);
+            }
         }
 
-        /* 手机端自适应换行 */
+        /* 手机端自适应设计 */
         @media (max-width: 768px) {
             #opening-text {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
                 padding: 0 20px;
-                line-height: 1.4;
+                line-height: 1.3;
+                letter-spacing: 0.06em;
             }
             
             #click-continue {
-                font-size: 0.9rem;
-                padding: 8px 16px;
-                bottom: 15%;
+                font-size: 1rem;
+                padding: 10px 20px;
+                bottom: 18%;
             }
             
             .mobile-break {
@@ -125,14 +157,15 @@
 
         @media (max-width: 480px) {
             #opening-text {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
                 padding: 0 15px;
+                letter-spacing: 0.04em;
             }
             
             #click-continue {
-                font-size: 0.8rem;
-                padding: 6px 12px;
-                bottom: 12%;
+                font-size: 0.9rem;
+                padding: 8px 16px;
+                bottom: 15%;
             }
         }
 
@@ -188,14 +221,10 @@
                 transform: translateY(0) scale(1); 
                 filter: blur(0);
             }
-            85% { 
+            100% { 
                 opacity: 1; 
                 transform: translateY(0) scale(1); 
-            }
-            100% { 
-                opacity: 0; 
-                transform: translateY(-15px) scale(1.02); 
-                filter: blur(2px);
+                filter: blur(0);
             }
         }
 
@@ -583,6 +612,7 @@
             color: rgba(255, 255, 255, 0.8);
             padding: 14px 24px;
             border-radius: 25px;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
             font-size: 0.85rem;
             font-weight: 400;
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -619,6 +649,8 @@
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 50px;
             padding: 12px 18px;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            font-weight: 500;
             color: #ffffff;
             cursor: pointer;
             z-index: 10;
@@ -658,10 +690,10 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 18px;
             padding: 18px 24px;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
             color: #ffffff;
             z-index: 10;
             backdrop-filter: blur(20px) saturate(1.2);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Roboto, sans-serif;
             min-width: 170px;
             opacity: 0.92;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1767,71 +1799,91 @@
             });
         }
 
-        // 文字粒子散落效果
+        // 专业文字粒子散落效果
         function createTextParticleEffect() {
             const openingText = document.getElementById('opening-text');
             const textContent = '为李星娅点亮星空';
             
-            // 隐藏原始文字
-            openingText.style.opacity = '0';
+            // 获取文字的精确位置信息
+            const textRect = openingText.getBoundingClientRect();
+            const centerX = textRect.left + textRect.width / 2;
+            const centerY = textRect.top + textRect.height / 2;
             
             // 创建粒子容器
             const particleContainer = document.createElement('div');
             particleContainer.style.cssText = `
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
                 pointer-events: none;
-                z-index: 1001;
+                z-index: 1003;
             `;
-            document.getElementById('opening-mask').appendChild(particleContainer);
+            document.body.appendChild(particleContainer);
             
-            // 为每个字符创建粒子
-            [...textContent].forEach((char, index) => {
-                if (char === ' ') return; // 跳过空格
+            // 每个字符生成多个光点粒子
+            [...textContent].forEach((char, charIndex) => {
+                if (char === ' ') return;
                 
-                const particle = document.createElement('div');
-                particle.textContent = char;
-                particle.style.cssText = `
-                    position: absolute;
-                    color: #ffffff;
-                    font-size: 2.2rem;
-                    font-weight: 400;
-                    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-                                 0 0 40px rgba(255, 215, 0, 0.6);
-                    opacity: 1;
-                    left: ${index * 45 - textContent.length * 22.5}px;
-                    top: 0px;
-                    transition: all 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                    z-index: 1002;
-                `;
+                // 计算每个字符的基础位置
+                const charWidth = 50; // 估算字符宽度
+                const baseX = centerX + (charIndex - textContent.length/2) * charWidth;
+                const baseY = centerY;
                 
-                particleContainer.appendChild(particle);
+                // 每个字符创建多个粒子
+                const particlesPerChar = 8 + Math.floor(Math.random() * 6);
                 
-                // 延迟启动粒子动画
-                setTimeout(() => {
-                    const angle = (Math.random() - 0.5) * Math.PI; // 随机角度
-                    const distance = 300 + Math.random() * 200; // 随机距离
-                    const rotateAngle = (Math.random() - 0.5) * 720; // 随机旋转
-                    
-                    particle.style.transform = `
-                        translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) 
-                        rotate(${rotateAngle}deg) 
-                        scale(0.3)
+                for (let i = 0; i < particlesPerChar; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: absolute;
+                        width: 3px;
+                        height: 3px;
+                        background: radial-gradient(circle, 
+                            rgba(255, 255, 255, 1) 0%, 
+                            rgba(255, 215, 0, 0.8) 30%, 
+                            rgba(255, 165, 0, 0.6) 60%, 
+                            rgba(255, 140, 0, 0) 100%);
+                        border-radius: 50%;
+                        box-shadow: 
+                            0 0 6px rgba(255, 255, 255, 0.8),
+                            0 0 12px rgba(255, 215, 0, 0.6),
+                            0 0 18px rgba(255, 165, 0, 0.4);
+                        left: ${baseX + (Math.random() - 0.5) * 40}px;
+                        top: ${baseY + (Math.random() - 0.5) * 20}px;
+                        opacity: 1;
+                        transition: all 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                        z-index: 1004;
                     `;
-                    particle.style.opacity = '0';
                     
-                    // 添加闪烁效果
-                    particle.style.animation = 'particleSparkle 2.5s ease-out forwards';
-                }, index * 100);
+                    particleContainer.appendChild(particle);
+                    
+                    // 延迟启动粒子动画
+                    setTimeout(() => {
+                        const angle = Math.random() * Math.PI * 2;
+                        const distance = 200 + Math.random() * 400;
+                        const finalX = baseX + Math.cos(angle) * distance;
+                        const finalY = baseY + Math.sin(angle) * distance + (Math.random() - 0.5) * 200;
+                        
+                        particle.style.transform = `translate(${finalX - baseX}px, ${finalY - baseY}px) scale(0.3)`;
+                        particle.style.opacity = '0';
+                        particle.style.filter = 'blur(1px)';
+                        
+                    }, charIndex * 50 + i * 30);
+                }
             });
             
-            // 2.5秒后开始淡出开场动画
+            // 同时让原始文字渐隐
+            openingText.style.transition = 'opacity 0.8s ease-out';
+            openingText.style.opacity = '0';
+            
+            // 3秒后清理粒子容器并开始淡出开场动画
             setTimeout(() => {
+                particleContainer.remove();
                 const openingMask = document.getElementById('opening-mask');
                 openingMask.style.opacity = '0';
-            }, 2500);
+            }, 3000);
         }
 
         // 高级缓动函数
@@ -2320,7 +2372,18 @@
                 transform: translateY(30px) scale(0.9);
                 transition: all 3s ease-out;
             `;
-            finalMessage.innerHTML = '祝我的宝贝生日快乐！<br><span style="font-size: 2rem; color: rgba(255, 215, 0, 0.9); line-height: 1.6; word-wrap: break-word; hyphens: auto;">想说的话太多，却又觉得千言万语都显得平凡。<br class="mobile-break">我们一起走过那么多地方，留下了无数珍贵的回忆。<br class="mobile-break">希望这个充满我们回忆的星空礼物能让你开心，<br class="mobile-break">愿你永远像你的名字一样，<br class="mobile-break">在人生的每个夜晚都星光闪耀 ✨</span>';
+            finalMessage.innerHTML = `
+                <div style="font-family: 'Playfair Display', 'Noto Serif SC', serif; font-size: 3.5rem; font-weight: 600; margin-bottom: 1.5rem;">
+                    祝我的宝贝生日快乐！
+                </div>
+                <div style="font-family: 'Inter', 'Noto Sans SC', sans-serif; font-size: 1.8rem; color: rgba(255, 215, 0, 0.95); line-height: 1.7; font-weight: 400; letter-spacing: 0.02em;">
+                    想说的话太多，却又觉得千言万语都显得平凡。<br class="mobile-break">
+                    我们一起走过那么多地方，留下了无数珍贵的回忆。<br class="mobile-break">
+                    希望这个充满我们回忆的星空礼物能让你开心，<br class="mobile-break">
+                    愿你永远像你的名字一样，<br class="mobile-break">
+                    在人生的每个夜晚都星光闪耀 ✨
+                </div>
+            `;
             
             // 创建装饰性粒子效果
             const particlesContainer = document.createElement('div');
