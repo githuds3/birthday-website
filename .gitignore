@@ -1,0 +1,6 @@
+# 暂时忽略大文件
+photos/*.jpg
+theme-of-exodus.mp3
+# 保留其他文件
+!photos/README.md
+!photos/.gitkeep

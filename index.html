@@ -1,0 +1,2240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>李星娅的生日祝福 - 星空寄语</title>
+    <!-- 引入手写体字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Roboto, sans-serif;
+            cursor: default;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse 100% 120% at 50% 40%, 
+                rgba(15, 23, 42, 0.4) 0%, 
+                rgba(7, 14, 30, 0.8) 40%, 
+                rgba(2, 6, 15, 0.95) 70%, 
+                #000000 100%);
+            backdrop-filter: brightness(1.1) contrast(1.05);
+        }
+
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* 开场动画遮罩 */
+        #opening-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(2, 6, 15, 1) 0%, 
+                rgba(7, 14, 30, 1) 50%, 
+                rgba(2, 6, 15, 1) 100%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 2.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        #opening-text {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            animation: sophisticatedFadeIn 4s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+            text-shadow: 0 4px 12px rgba(255, 255, 255, 0.15),
+                         0 2px 6px rgba(255, 255, 255, 0.25);
+        }
+
+        @keyframes sophisticatedFadeIn {
+            0% { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95); 
+                filter: blur(3px);
+            }
+            25% { 
+                opacity: 0.6; 
+                transform: translateY(15px) scale(0.98); 
+                filter: blur(1px);
+            }
+            50% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+                filter: blur(0);
+            }
+            85% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-15px) scale(1.02); 
+                filter: blur(2px);
+            }
+        }
+
+        /* 祝福弹窗 */
+        #blessing-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                rgba(15, 23, 42, 0.7) 0%, 
+                rgba(2, 6, 15, 0.9) 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            backdrop-filter: blur(20px) saturate(1.2);
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        #blessing-content {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.03) 50%,
+                rgba(255, 255, 255, 0.06) 100%);
+            padding: 70px 50px;
+            border-radius: 24px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.25),
+                0 10px 25px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transform: scale(0.85) translateY(20px);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #blessing-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.03) 0%, 
+                transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+            50% { transform: rotate(180deg) scale(1.1); opacity: 0.6; }
+        }
+
+        #blessing-content.show {
+            transform: scale(1) translateY(0);
+        }
+
+        #blessing-text {
+            color: #ffffff;
+            font-size: 2.8rem;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 600;
+            margin-bottom: 25px;
+            letter-spacing: 0.01em;
+            line-height: 1.2;
+            text-shadow: 
+                0 4px 12px rgba(255, 255, 255, 0.2),
+                0 2px 6px rgba(255, 215, 0, 0.3),
+                0 8px 25px rgba(255, 255, 255, 0.1);
+            animation: elegantSparkle 3s ease-in-out infinite, 
+                       subtleGlow 4s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        #blessing-text::before,
+        #blessing-text::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: floatParticles 4s infinite ease-in-out;
+        }
+
+        #blessing-text::before {
+            top: -10px;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        #blessing-text::after {
+            bottom: -10px;
+            right: 25%;
+            animation-delay: 2s;
+        }
+
+        @keyframes elegantSparkle {
+            0%, 100% { 
+                text-shadow: 
+                    0 4px 12px rgba(255, 255, 255, 0.2),
+                    0 2px 6px rgba(255, 215, 0, 0.3),
+                    0 8px 25px rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                text-shadow: 
+                    0 4px 15px rgba(255, 255, 255, 0.4),
+                    0 2px 8px rgba(255, 215, 0, 0.5),
+                    0 10px 30px rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        @keyframes subtleGlow {
+            0%, 100% { 
+                transform: scale(1) translateY(0);
+                filter: brightness(1);
+            }
+            50% { 
+                transform: scale(1.01) translateY(-1px);
+                filter: brightness(1.05);
+            }
+        }
+
+        @keyframes floatParticles {
+            0% { 
+                transform: translateY(0) scale(1); 
+                opacity: 0;
+            }
+            20% { 
+                opacity: 1;
+            }
+            80% { 
+                opacity: 1;
+                transform: translateY(-30px) scale(0.8);
+            }
+            100% { 
+                transform: translateY(-50px) scale(0); 
+                opacity: 0;
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3); }
+            50% { text-shadow: 0 2px 20px rgba(255, 255, 255, 0.6), 0 0 30px rgba(255, 255, 255, 0.3); }
+        }
+
+        #blessing-heart {
+            font-size: 3rem;
+            color: #ff6b9d;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* 照片回忆卡片 */
+        #memory-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, 
+                rgba(15, 23, 42, 0.8) 0%, 
+                rgba(2, 6, 15, 0.95) 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            backdrop-filter: blur(25px) saturate(1.3);
+        }
+
+        #memory-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.09) 0%, 
+                rgba(255, 255, 255, 0.04) 50%,
+                rgba(255, 255, 255, 0.07) 100%);
+            padding: 45px;
+            border-radius: 28px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.3),
+                0 15px 35px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            max-width: 520px;
+            transform: translateY(40px) scale(0.9);
+            opacity: 0;
+            transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #memory-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 30%,
+                transparent 70%, 
+                rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 28px;
+            z-index: -1;
+            opacity: 0;
+            animation: cardBorderGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes cardBorderGlow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        #memory-card.show {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        #memory-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(45deg, #ff6b9d, #4ecdc4);
+            border-radius: 15px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        #memory-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        #memory-image:hover img {
+            transform: scale(1.05);
+        }
+
+        #memory-image .placeholder-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* 移动端适配优化 */
+        @media (max-width: 768px) {
+            #memory-image {
+                max-width: 90vw;
+                height: 40vh;
+                max-height: 250px;
+            }
+            
+            #memory-card {
+                max-width: 90vw;
+                padding: 20px 15px;
+            }
+            
+            #blessing-text {
+                font-size: 1.8rem;
+                line-height: 1.3;
+            }
+            
+            #memory-title {
+                font-size: 1.1rem;
+            }
+            
+            #memory-description {
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+            
+            #controls-hint {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+                bottom: 10px;
+                left: 10px;
+            }
+            
+            #music-control {
+                width: 35px;
+                height: 35px;
+                top: 15px;
+                right: 15px;
+                font-size: 14px;
+            }
+            
+            #constellation-tooltip {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+                max-width: 80vw;
+            }
+        }
+
+        #memory-title {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        #memory-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* 星座信息提示 */
+        #constellation-tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.9) 0%, 
+                rgba(2, 6, 15, 0.95) 100%);
+            color: #ffffff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(1.2);
+            transform: translateY(10px) scale(0.9);
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.2),
+                0 8px 20px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.01em;
+        }
+
+        #constellation-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid rgba(15, 23, 42, 0.9);
+        }
+
+        /* 控制提示 */
+        #controls-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.04) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 14px 24px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 400;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px) saturate(1.1);
+            z-index: 10;
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.1),
+                0 4px 10px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            letter-spacing: 0.01em;
+        }
+
+        #controls-hint:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.06) 0%, 
+                rgba(255, 255, 255, 0.03) 100%);
+            color: rgba(255, 255, 255, 0.95);
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 
+                0 12px 28px rgba(0, 0, 0, 0.15),
+                0 6px 14px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        /* 音乐控制 */
+        #music-control {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.06) 0%, 
+                rgba(255, 255, 255, 0.03) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50px;
+            padding: 12px 18px;
+            color: #ffffff;
+            cursor: pointer;
+            z-index: 10;
+            backdrop-filter: blur(20px) saturate(1.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.12),
+                0 4px 10px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        #music-control:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 12px 28px rgba(0, 0, 0, 0.18),
+                0 6px 14px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        #music-control:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* 进度指示器 */
+        #progress-indicator {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.05) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            padding: 18px 24px;
+            color: #ffffff;
+            z-index: 10;
+            backdrop-filter: blur(20px) saturate(1.2);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Roboto, sans-serif;
+            min-width: 170px;
+            opacity: 0.92;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.15),
+                0 4px 10px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        #progress-indicator:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.08) 0%, 
+                rgba(255, 255, 255, 0.04) 100%);
+            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 28px rgba(0, 0, 0, 0.2),
+                0 6px 14px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .progress-stars {
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffdd44);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            #progress-indicator {
+                top: 15px;
+                left: 15px;
+                padding: 6px 10px;
+                min-width: 120px;
+                font-size: 0.75rem;
+            }
+            
+            .progress-text {
+                font-size: 0.7rem;
+            }
+            
+            .progress-stars {
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* 超小屏幕适配 */
+        @media (max-width: 480px) {
+            #blessing-text {
+                font-size: 1.5rem;
+            }
+            
+            #memory-image {
+                height: 35vh;
+                max-height: 200px;
+            }
+            
+            #memory-card, #blessing-content {
+                width: 95vw;
+                padding: 15px 10px;
+            }
+            
+            #controls-hint {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- 开场动画 -->
+        <div id="opening-mask">
+            <div id="opening-text">为李星娅点亮星空</div>
+        </div>
+
+        <!-- Three.js 画布容器 -->
+        <div id="canvas-container"></div>
+
+        <!-- 祝福弹窗 -->
+        <div id="blessing-modal">
+            <div id="blessing-content">
+                <div id="blessing-text">祝宝贝天天开心，永远18岁</div>
+                <div id="blessing-heart">❤️</div>
+            </div>
+        </div>
+
+        <!-- 照片回忆弹窗 -->
+        <div id="memory-modal">
+            <div id="memory-card">
+                <div id="memory-image">
+                    <div class="placeholder-text">
+                        <div>📸</div>
+                        <div>美好的回忆照片</div>
+                        <div style="font-size: 0.8rem; margin-top: 10px;">请将照片放在photos文件夹中</div>
+                    </div>
+                </div>
+                <div id="memory-title">那一天的回忆</div>
+                <div id="memory-description">在这里可以放置那天的照片和美好回忆...</div>
+            </div>
+        </div>
+
+        <!-- 星座信息提示 -->
+        <div id="constellation-tooltip"></div>
+
+        <!-- 控制提示 -->
+        <div id="controls-hint">
+            鼠标拖拽移动视角 | 滚轮缩放 | 点击星座查看祝福
+        </div>
+
+        <!-- 音乐控制 -->
+        <div id="music-control" onclick="toggleMusic()">
+            🎵 音乐
+        </div>
+
+        <!-- 进度指示器 -->
+        <div id="progress-indicator">
+            <div class="progress-text">探索进度</div>
+            <div class="progress-stars">
+                <span id="progress-count">0</span>/9 ⭐
+            </div>
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- 背景音乐 -->
+        <audio id="background-music" loop>
+            <source src="theme-of-exodus.mp3" type="audio/mpeg">
+            您的浏览器不支持音频播放。
+        </audio>
+    </div>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- 轨道控制器 -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    
+    <script>
+        // 全局变量
+        let scene, camera, renderer, controls;
+        let starField;
+        let leoConstellation = {};
+        let leoStars = [];
+        let leoLines = [];
+        let isInitialized = false;
+        let musicPlaying = false;
+
+        // 点击进度跟踪
+        let clickedStars = new Set(); // 已点击的星星名称
+        let allStarsClickedTriggered = false; // 是否已触发完成彩蛋
+        let firstBlessingShown = false; // 是否已显示过第一次祝福
+
+        // 狮子座恒星数据（用户提供的精确坐标）
+        const leoStarsData = [
+            { name: 'Regulus', bayer: 'α Leo', x: -0.864493, y: 0.457886, z: 0.207347, magnitude: 1.4 },
+            { name: 'Denebola', bayer: 'β Leo', x: -0.966729, y: 0.046224, z: 0.251591, magnitude: 2.1 },
+            { name: 'Algieba', bayer: 'γ¹ Leo', x: -0.852446, y: 0.397653, z: 0.339422, magnitude: 2.6 },
+            { name: 'Zosma', bayer: 'δ Leo', x: -0.917810, y: 0.186313, z: 0.350589, magnitude: 2.6 },
+            { name: 'Algenubi', bayer: 'ε Leo', x: -0.762793, y: 0.505600, z: 0.403133, magnitude: 3.0 },
+            { name: 'Adhafera', bayer: 'ζ Leo', x: -0.825963, y: 0.399805, z: 0.397419, magnitude: 3.4 },
+            { name: 'Al Jabhah', bayer: 'η Leo', x: -0.844085, y: 0.452041, z: 0.284835, magnitude: 3.5 },
+            { name: 'Chertan', bayer: 'θ Leo', x: -0.944803, y: 0.191221, z: 0.266047, magnitude: 3.3 },
+            { name: 'Rasalas', bayer: 'μ Leo', x: -0.763732, y: 0.473764, z: 0.438476, magnitude: 3.9 }
+        ];
+
+        // 狮子座连线配置
+        const leoConnections = [
+            // 镰刀（头部）- 平滑贝塞尔曲线
+            ['ε Leo', 'μ Leo'], ['μ Leo', 'ζ Leo'], ['ζ Leo', 'γ¹ Leo'], 
+            ['γ¹ Leo', 'η Leo'], ['η Leo', 'α Leo'],
+            // 身体与尾巴
+            ['α Leo', 'δ Leo'], ['δ Leo', 'β Leo'], ['δ Leo', 'θ Leo']
+        ];
+
+        // 初始化
+        function init() {
+            console.log('🚀 开始初始化Three.js场景');
+            
+            try {
+                // 创建场景
+                scene = new THREE.Scene();
+                console.log('✅ 场景创建成功');
+                
+                // 创建相机 - 调整初始位置让狮子座横向显示并占据主要画面
+                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                camera.position.set(-4, -6, 8);  // 更近的距离，让狮子座占据画面主要部分
+                console.log('✅ 相机创建成功, 位置:', camera.position);
+                
+                // 创建渲染器
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearColor(0x000000, 1);
+                
+                const canvasContainer = document.getElementById('canvas-container');
+                if (!canvasContainer) {
+                    throw new Error('找不到canvas-container元素');
+                }
+                canvasContainer.appendChild(renderer.domElement);
+                console.log('✅ 渲染器创建成功并添加到DOM');
+                
+                // 检查OrbitControls是否可用
+                if (typeof THREE.OrbitControls === 'undefined') {
+                    console.error('❌ THREE.OrbitControls未加载');
+                    return;
+                }
+                
+                // 添加轨道控制器
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.enableZoom = true;
+                controls.enableRotate = true;
+                controls.enablePan = true;
+                controls.minDistance = 1;
+                controls.maxDistance = 15;
+                // 设置初始旋转角度让狮子座呈现横向姿态
+                controls.target.set(0, 0, 0);
+                camera.lookAt(0, 0, 0);
+                console.log('✅ 控制器创建成功');
+                
+                // 创建星空背景
+                console.log('🌌 开始创建星空背景');
+                createStarField();
+                console.log('✅ 星空背景创建完成');
+                
+                // 创建狮子座
+                console.log('🦁 开始创建狮子座');
+                createLeoConstellation();
+                console.log('✅ 狮子座创建完成，星星数量:', leoStars.length);
+                
+                // 添加事件监听器
+                console.log('🎯 添加事件监听器');
+                addEventListeners();
+                console.log('✅ 事件监听器添加完成');
+                
+                // 开始动画循环
+                console.log('🎬 开始动画循环');
+                animate();
+                
+                // 开场动画
+                console.log('✨ 开始播放开场动画');
+                startOpeningAnimation();
+                
+                console.log('🎉 Three.js场景初始化完成！场景对象数:', scene.children.length);
+                
+            } catch (error) {
+                console.error('❌ 初始化过程中发生错误:', error);
+                console.error('错误堆栈:', error.stack);
+                alert('初始化失败: ' + error.message);
+            }
+        }
+
+        // 创建星空背景 - 性能优化版
+        function createStarField() {
+            const starGeometry = new THREE.BufferGeometry();
+            const starCount = 800; // 减少星星数量提升性能
+            
+            const positions = new Float32Array(starCount * 3);
+            const colors = new Float32Array(starCount * 3);
+            const sizes = new Float32Array(starCount);
+            
+            for (let i = 0; i < starCount; i++) {
+                // 让背景星星距离更远，突出狮子座
+                const radius = Math.random() * 10 + 25; // 更远的距离
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(Math.random() * 2 - 1);
+                
+                positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+                positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+                positions[i * 3 + 2] = radius * Math.cos(phi);
+                
+                // 简化颜色计算，提升性能
+                const colorType = Math.floor(Math.random() * 3);
+                let r, g, b;
+                switch (colorType) {
+                    case 0: // 蓝白色
+                        r = 0.4; g = 0.45; b = 0.5;
+                        break;
+                    case 1: // 黄白色
+                        r = 0.5; g = 0.45; b = 0.35;
+                        break;
+                    default: // 橙色
+                        r = 0.4; g = 0.3; b = 0.2;
+                }
+                
+                colors[i * 3] = r;
+                colors[i * 3 + 1] = g;
+                colors[i * 3 + 2] = b;
+                
+                // 稍微增加星星大小的变化
+                sizes[i] = 0.08 + Math.random() * 0.03;
+            }
+            
+            starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            starGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+            
+            const starMaterial = new THREE.PointsMaterial({
+                size: 0.1, // 稍微放大背景星星
+                sizeAttenuation: true,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6, // 稍微提高透明度让星星更明显
+                blending: THREE.AdditiveBlending,
+                alphaTest: 0.3 // 降低alpha测试阈值让更多星星可见
+            });
+            
+            starField = new THREE.Points(starGeometry, starMaterial);
+            scene.add(starField);
+            
+            // 添加星空闪烁动画
+            animateStarField();
+        }
+
+        // 星空闪烁动画 - 性能优化版
+        function animateStarField() {
+            let time = 0;
+            let lastFrameTime = 0;
+            const targetFPS = 15; // 降低到15fps
+            const frameInterval = 1000 / targetFPS;
+            
+            const twinkle = (currentTime) => {
+                if (currentTime - lastFrameTime >= frameInterval) {
+                    time += 0.01;
+                    if (starField && starField.material) {
+                        starField.material.opacity = 0.8 + Math.sin(time * 0.5) * 0.08;
+                    }
+                    lastFrameTime = currentTime;
+                }
+                requestAnimationFrame(twinkle);
+            };
+            
+            requestAnimationFrame(twinkle);
+        }
+
+        // 恒星色彩映射 - 基于星等和光谱类型
+        function getStarColor(magnitude) {
+            // 根据星等返回逼真的恒星颜色
+            if (magnitude < 1.5) return 0xffffee; // 明亮的白色
+            if (magnitude < 2.0) return 0xffeecc; // 淡黄白色
+            if (magnitude < 2.5) return 0xffddaa; // 黄色
+            return 0xffcc88; // 橙黄色
+        }
+        
+        // 生成柔和的径向光晕纹理（用于更干净的恒星光效）
+        function createHaloTexture(innerColor = 'rgba(255,255,255,0.9)', outerColor = 'rgba(255,255,255,0)') {
+            const size = 256;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+            gradient.addColorStop(0.0, innerColor);
+            gradient.addColorStop(0.2, 'rgba(255,255,255,0.55)');
+            gradient.addColorStop(0.5, 'rgba(255,230,180,0.25)');
+            gradient.addColorStop(1.0, outerColor);
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+            ctx.fill();
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+        
+        // 创建流光效果
+        function createFlowingLight(curve, lineGroup, connectionIndex) {
+            // 需求：去除微粒子流动，此函数保留空实现以避免调用方报错
+            return;
+        }
+        
+        // 更新流光粒子动画
+        function updateFlowingLights() {
+            if (window.flowingParticles) {
+                window.flowingParticles.forEach(particle => {
+                    particle.progress += particle.speed;
+                    
+                    // 循环动画
+                    if (particle.progress > 1) {
+                        particle.progress = 0;
+                    }
+                    
+                    // 更新粒子位置
+                    const position = particle.curve.getPoint(particle.progress);
+                    particle.mesh.position.copy(position);
+                    
+                    // 渐变透明度效果 - 头部和尾部淡化
+                    const fadeIn = Math.min(particle.progress * 5, 1);
+                    const fadeOut = Math.min((1 - particle.progress) * 5, 1);
+                    const alpha = Math.min(fadeIn, fadeOut) * particle.baseOpacity;
+                    
+                    particle.mesh.material.opacity = alpha;
+                    if (particle.mesh.children[0]) {
+                        particle.mesh.children[0].material.opacity = alpha * 0.6;
+                    }
+                });
+            }
+        }
+
+        // 创建狮子座
+        function createLeoConstellation() {
+            const starGroup = new THREE.Group();
+            const lineGroup = new THREE.Group();
+            
+            // 添加环境光增强材质效果
+            const ambientLight = new THREE.AmbientLight(0x404050, 0.3);
+            scene.add(ambientLight);
+            
+            // 添加点光源增强星星光效
+            const pointLight = new THREE.PointLight(0xffffcc, 0.4, 100);
+            pointLight.position.set(0, 0, 10);
+            scene.add(pointLight);
+            
+            // 统一使用固定半径，确保星星和连线在同一位置
+            const fixedRadius = 5;
+            
+            // 创建狮子座恒星
+            leoStarsData.forEach((starData, index) => {
+                const starSize = 0.06 + (4 - starData.magnitude) * 0.03;
+                const starGeometry = new THREE.SphereGeometry(starSize, 24, 24);
+                const starColor = getStarColor(starData.magnitude);
+                const starMaterial = new THREE.MeshBasicMaterial({
+                    color: starColor,
+                    transparent: true,
+                    opacity: 0.9
+                });
+                const star = new THREE.Mesh(starGeometry, starMaterial);
+                star.position.set(
+                    starData.x * fixedRadius,
+                    starData.y * fixedRadius,
+                    starData.z * fixedRadius
+                );
+                
+                // 使用单层精灵光晕，避免多层球体叠影
+                const haloTexture = createHaloTexture('rgba(255,255,255,0.9)', 'rgba(255,255,255,0)');
+                const haloMaterial = new THREE.SpriteMaterial({
+                    map: haloTexture,
+                    color: new THREE.Color(starColor),
+                    transparent: true,
+                    opacity: 0.5,
+                    depthTest: false,
+                    blending: THREE.AdditiveBlending
+                });
+                const halo = new THREE.Sprite(haloMaterial);
+                halo.position.copy(star.position);
+                const haloSize = starSize * 9.0; // 明显可见的柔和光晕
+                halo.scale.set(haloSize, haloSize, 1);
+                halo.userData = { baseOpacity: 0.5 };
+                
+                // 存储星星数据，包括统一的半径
+                star.userData = {
+                    starData: starData,
+                    index: index,
+                    originalScale: star.scale.clone(),
+                    radius: fixedRadius,
+                    glowLayers: [halo]
+                };
+                
+                leoStars.push(star);
+                starGroup.add(star);
+                starGroup.add(halo);
+            });
+            
+            // 创建优雅的曲线连线系统
+            leoConnections.forEach((connection, connectionIndex) => {
+                const star1 = leoStarsData.find(s => s.bayer === connection[0]);
+                const star2 = leoStarsData.find(s => s.bayer === connection[1]);
+                
+                if (star1 && star2) {
+                    const start = new THREE.Vector3(star1.x * fixedRadius, star1.y * fixedRadius, star1.z * fixedRadius);
+                    const end = new THREE.Vector3(star2.x * fixedRadius, star2.y * fixedRadius, star2.z * fixedRadius);
+                    
+                    // 创建控制点以形成优雅的曲线
+                    const midPoint = new THREE.Vector3().lerpVectors(start, end, 0.5);
+                    const distance = start.distanceTo(end);
+                    const offset = distance * 0.12; // 曲线弯曲程度
+                    
+                    // 计算垂直于连线的偏移向量
+                    const direction = new THREE.Vector3().subVectors(end, start).normalize();
+                    const perpendicular = new THREE.Vector3(-direction.y, direction.x, direction.z * 0.3).normalize();
+                    
+                    // 创建控制点
+                    const controlPoint1 = start.clone().lerp(midPoint, 0.4).add(perpendicular.clone().multiplyScalar(offset));
+                    const controlPoint2 = end.clone().lerp(midPoint, 0.4).add(perpendicular.clone().multiplyScalar(-offset));
+                    
+                    // 使用CatmullRom曲线创建平滑路径
+                    const curve = new THREE.CatmullRomCurve3([
+                        start,
+                        controlPoint1,
+                        controlPoint2,
+                        end
+                    ], false, 'catmullrom', 0.3);
+                    
+                    // 改为直线段（无弯曲）、半透明柔和
+                    const straightPoints = [start, end];
+                    const lineGeometry = new THREE.BufferGeometry().setFromPoints(straightPoints);
+                    const lineMaterial = new THREE.LineBasicMaterial({
+                        color: 0x6fb7d8,
+                        transparent: true,
+                        opacity: 0.28,
+                        linewidth: 1.5
+                    });
+                    const straightLine = new THREE.Line(lineGeometry, lineMaterial);
+                    lineGroup.add(straightLine);
+                    leoLines.push(straightLine);
+                    
+                    // 移除微粒子流动（按需求）
+                }
+            });
+            
+            leoConstellation.stars = starGroup;
+            leoConstellation.lines = lineGroup;
+            scene.add(starGroup);
+            scene.add(lineGroup);
+        }
+
+        // 添加事件监听器
+        function addEventListeners() {
+            console.log('🎯 开始添加事件监听器');
+            console.log('🖼️ 渲染器DOM元素:', renderer.domElement);
+            
+            // 鼠标点击事件
+            renderer.domElement.addEventListener('click', onStarClick);
+            console.log('✅ 点击事件监听器已添加到canvas');
+            
+            // 移动端触摸事件
+            renderer.domElement.addEventListener('touchend', onTouchEnd, { passive: false });
+            console.log('✅ 触摸事件监听器已添加到canvas');
+            
+            // 鼠标移动事件（悬停）
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            console.log('✅ 鼠标移动事件监听器已添加');
+            
+            // 添加通用点击测试
+            renderer.domElement.addEventListener('click', function(e) {
+                console.log('🖱️ Canvas被点击了！坐标:', e.clientX, e.clientY);
+            });
+            
+            // 窗口大小改变
+            window.addEventListener('resize', onWindowResize);
+            
+            // 弹窗关闭
+            document.getElementById('blessing-modal').addEventListener('click', closeBlessingModal);
+            document.getElementById('memory-modal').addEventListener('click', closeMemoryModal);
+            
+            // 音乐控制按钮
+            const musicControl = document.getElementById('music-control');
+            if (musicControl) {
+                musicControl.onclick = toggleMusic;
+                // 添加触摸支持
+                musicControl.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    toggleMusic();
+                });
+                console.log('✅ 音乐控制按钮事件已绑定');
+            }
+            
+            console.log('🎯 所有事件监听器添加完成');
+        }
+
+        // 触摸事件处理
+        function onTouchEnd(event) {
+            console.log('📱 触摸事件触发');
+            event.preventDefault();
+            
+            if (event.changedTouches && event.changedTouches.length > 0) {
+                const touch = event.changedTouches[0];
+                console.log('👆 触摸坐标:', touch.clientX, touch.clientY);
+                
+                // 创建模拟的鼠标事件对象
+                const simulatedEvent = {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    preventDefault: () => event.preventDefault(),
+                    stopPropagation: () => event.stopPropagation()
+                };
+                
+                // 调用星星点击处理函数
+                handleStarInteraction(simulatedEvent);
+            }
+        }
+        
+        // 星星点击事件 - 增强交互反馈
+        function onStarClick(event) {
+            console.log('⭐ 鼠标点击事件触发！坐标:', event.clientX, event.clientY);
+            handleStarInteraction(event);
+        }
+        
+        // 统一的星星交互处理函数
+        function handleStarInteraction(event) {
+            console.log('🎯 处理星星交互，坐标:', event.clientX, event.clientY);
+            
+            // 阻止事件冒泡，确保只处理一次
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const mouse = new THREE.Vector2();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            console.log('📐 标准化坐标:', mouse.x, mouse.y);
+            
+            const raycaster = new THREE.Raycaster();
+            // 移动端需要更大的检测范围
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            raycaster.params.Points.threshold = isMobile ? 1.5 : 0.5;
+            raycaster.setFromCamera(mouse, camera);
+            
+            console.log('🔍 raycaster设置完成，检测范围:', raycaster.params.Points.threshold);
+            console.log('📊 检测对象数组:', leoStars.length, '个星星');
+            
+            const intersects = raycaster.intersectObjects(leoStars);
+            console.log(`🎯 检测结果: ${intersects.length} 个交互对象`);
+            
+            // 如果没有检测到，增大检测范围再试一次
+            if (intersects.length === 0) {
+                console.log('🔄 第一次检测失败，尝试增大检测范围');
+                raycaster.params.Points.threshold = isMobile ? 2.5 : 1.0;
+                const secondTry = raycaster.intersectObjects(leoStars);
+                console.log(`🔄 第二次检测结果: ${secondTry.length} 个交互对象`);
+                
+                if (secondTry.length > 0) {
+                    intersects.push(...secondTry);
+                }
+            }
+            
+            // 调试：显示所有星星的位置和相机信息
+            if (intersects.length === 0) {
+                console.log('📍 调试信息:');
+                console.log('  📷 相机位置:', camera.position);
+                console.log('  🎯 相机朝向:', camera.rotation);
+                console.log('🌟 所有狮子座星星位置:');
+                leoStars.forEach((star, index) => {
+                    if (star.userData && star.userData.starData) {
+                        console.log(`  ${index}: ${star.userData.starData.name} 位置:`, star.position);
+                    } else {
+                        console.log(`  ${index}: 星星数据缺失`, star.position);
+                    }
+                });
+            }
+            
+            if (intersects.length > 0) {
+                const clickedStar = intersects[0].object;
+                console.log('🎊 成功点击到星星！', clickedStar);
+                
+                if (clickedStar.userData && clickedStar.userData.starData) {
+                    const starData = clickedStar.userData.starData;
+                    console.log(`⭐ 点击了星星: ${starData.name} (${starData.bayer})`);
+                    
+                    // 添加高级点击效果
+                    const starColor = getStarColor(starData.magnitude);
+                    const rgbaColor = `rgba(${(starColor >> 16) & 255}, ${(starColor >> 8) & 255}, ${starColor & 255}, 0.6)`;
+                    addRippleEffect(event.clientX, event.clientY, rgbaColor);
+                    
+                    // 星星点击动画
+                    animateStarClick(clickedStar);
+                    
+                    // 第一次点击任意星星都显示生日祝福
+                    if (!firstBlessingShown) {
+                        console.log('🎂 第一次点击，显示生日祝福');
+                        firstBlessingShown = true;
+                        showBirthdayBlessing();
+                    } else {
+                        console.log('📸 显示回忆内容');
+                        // 第二次点击开始显示各自的回忆
+                        showMemoryModal(starData);
+                    }
+                } else {
+                    console.log('❌ 星星数据缺失');
+                }
+            } else {
+                console.log('🌌 点击了空白区域，添加空白区域波纹效果');
+                // 点击空白处的反馈
+                addRippleEffect(event.clientX, event.clientY, 'rgba(100, 150, 255, 0.2)');
+            }
+        }
+
+        // 星星点击动画
+        function animateStarClick(star) {
+            let progress = 0;
+            const duration = 0.6;
+            const startTime = performance.now();
+            const originalScale = star.scale.x;
+            
+            const animate = (currentTime) => {
+                progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
+                
+                // 弹性缩放动画
+                const easeProgress = EasingFunctions.easeOutBack(progress);
+                let scale;
+                
+                if (progress < 0.3) {
+                    scale = originalScale + (2.2 - originalScale) * (progress / 0.3);
+                } else {
+                    scale = 2.2 + (originalScale - 2.2) * ((progress - 0.3) / 0.7);
+                }
+                
+                star.scale.setScalar(scale);
+                
+                // 临时增强发光效果
+                if (star.material && star.material.emissiveIntensity !== undefined) {
+                    star.material.emissiveIntensity = 0.2 + Math.sin(progress * Math.PI * 3) * 0.3;
+                }
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    star.scale.setScalar(originalScale);
+                    if (star.material && star.material.emissiveIntensity !== undefined) {
+                        star.material.emissiveIntensity = 0.2;
+                    }
+                }
+            };
+            
+            requestAnimationFrame(animate);
+        }
+
+        // 鼠标悬停事件 - 增强微交互
+        function onMouseMove(event) {
+            const mouse = new THREE.Vector2();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            
+            const intersects = raycaster.intersectObjects(leoStars);
+            const tooltip = document.getElementById('constellation-tooltip');
+            
+            if (intersects.length > 0) {
+                const hoveredStar = intersects[0].object;
+                const starData = hoveredStar.userData.starData;
+                
+                // 优雅的工具提示动画
+                tooltip.style.opacity = '1';
+                tooltip.style.transform = 'translateY(-5px) scale(1)';
+                tooltip.style.left = event.clientX + 15 + 'px';
+                tooltip.style.top = event.clientY - 40 + 'px';
+                
+                if (starData.bayer === 'α Leo') {
+                    tooltip.textContent = `狮子座 - ${starData.name} - 李星娅的生日星座 ✨`;
+                } else {
+                    tooltip.textContent = `${starData.name} (${starData.bayer}) - 点击查看回忆`;
+                }
+                
+                // 流畅的星星缩放动画
+                animateStarHover(hoveredStar, true);
+                renderer.domElement.style.cursor = 'pointer';
+            } else {
+                tooltip.style.opacity = '0';
+                tooltip.style.transform = 'translateY(0) scale(0.95)';
+                renderer.domElement.style.cursor = 'default';
+                
+                // 重置所有星星状态
+                leoStars.forEach(star => {
+                    animateStarHover(star, false);
+                });
+            }
+        }
+
+        // 星星悬停动画 - 更优雅的效果
+        function animateStarHover(star, isHover) {
+            const targetScale = isHover ? 1.1 : 1; // 更克制
+            const currentScale = star.scale.x;
+            
+            let progress = 0;
+            const duration = 0.5; // 增加动画时长，更平滑
+            const startTime = performance.now();
+            
+            // 更新多层光晕效果
+            if (isHover) {
+                // 增强所有光晕层
+                if (star.userData.glowLayers) {
+                    star.userData.glowLayers.forEach((glow, index) => {
+                        const scale = 1.12;
+                        glow.scale.set(glow.scale.x * scale, glow.scale.y * scale, 1);
+                        const base = glow.userData && glow.userData.baseOpacity ? glow.userData.baseOpacity : 0.5;
+                        glow.material.opacity = Math.min(0.75, base + 0.15);
+                    });
+                }
+                // 星体本身保持简洁
+            } else {
+                // 恢复正常光晕
+                if (star.userData.glowLayers) {
+                    star.userData.glowLayers.forEach((glow, index) => {
+                        // 将精灵光晕恢复到基础透明度
+                        const base = glow.userData && glow.userData.baseOpacity ? glow.userData.baseOpacity : 0.5;
+                        glow.material.opacity = base;
+                    });
+                }
+            }
+            
+            const animate = (currentTime) => {
+                progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
+                const easeProgress = EasingFunctions.easeInOutSine(progress); // 更平滑的缓动
+                
+                const newScale = currentScale + (targetScale - currentScale) * easeProgress;
+                star.scale.setScalar(newScale);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            };
+            
+            requestAnimationFrame(animate);
+        }
+
+        // 显示生日祝福弹窗
+        function showBirthdayBlessing() {
+            console.log('🎉 showBirthdayBlessing 函数被调用');
+            const modal = document.getElementById('blessing-modal');
+            const content = document.getElementById('blessing-content');
+            const blessingText = document.getElementById('blessing-text');
+            
+            console.log('🔍 DOM元素检查:', {
+                modal: !!modal,
+                content: !!content, 
+                blessingText: !!blessingText
+            });
+            
+            if (!modal || !content || !blessingText) {
+                console.error('❌ 找不到必要的DOM元素');
+                return;
+            }
+            
+            // 设置生日祝福文字
+            blessingText.textContent = '宝贝生日快乐！';
+            console.log('📝 设置祝福文字:', blessingText.textContent);
+            
+            modal.style.display = 'flex';
+            console.log('👁️ 显示弹窗，modal.style.display =', modal.style.display);
+            
+            setTimeout(() => {
+                content.classList.add('show');
+                console.log('✨ 添加show类，classList:', content.classList.toString());
+            }, 100);
+            
+            // 添加流光效果到连线
+            animateConstellationLines();
+        }
+
+        // 显示原来的祝福弹窗（保留备用）
+        function showBlessingModal() {
+            const modal = document.getElementById('blessing-modal');
+            const content = document.getElementById('blessing-content');
+            const blessingText = document.getElementById('blessing-text');
+            
+            // 设置原来的祝福文字
+            blessingText.textContent = '祝宝贝天天开心，永远18岁';
+            
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                content.classList.add('show');
+            }, 100);
+            
+            // 添加流光效果到连线
+            animateConstellationLines();
+        }
+
+        // 星星回忆数据配置 - 根据真实照片内容定制
+        const starMemories = {
+            'Regulus': {
+                photo: 'photos/regulus.jpg',
+                title: 'Regulus - 王者之星 ⭐',
+                memory: '就像繁花盛开的那一刻，你的笑容是我心中最亮的光。在这个充满温馨花朵的地方，我们的爱情也如花般绽放 🌸✨'
+            },
+            'Denebola': {
+                photo: 'photos/denebola.jpg', 
+                title: 'Denebola - 狮子的尾巴 🦁',
+                memory: '在茫茫戈壁中，每次回头都能看到你灿烂的身影。那个沙漠午后，你俏皮的姿势定格了我们青春最美的时光 🏜️💫'
+            },
+            'Algieba': {
+                photo: 'photos/algieba.jpg',
+                title: 'Algieba - 狮子的额头 🌄',
+                memory: '站在山巅与你并肩，仿佛拥有了整个世界的风光。那片壮美的戈壁高地见证了我们的山盟海誓 ⛰️💕'
+            },
+            'Zosma': {
+                photo: 'photos/zosma.jpg',
+                title: 'Zosma - 狮子的腰部 ☁️',
+                memory: '在那片蔚蓝的天空下，时光静好，有你就是晴天。现代建筑也比不过你眼中的星光璀璨 🏙️💙'
+            },
+            'Algenubi': {
+                photo: 'photos/algenubi.jpg',
+                title: 'Algenubi - 狮子的鼻子 ❄️',
+                memory: '雪花飞舞的日子里，你嘟嘴的模样比雪花更可爱。毛绒帽子下的你，像个冬日里的小天使 ☃️😘'
+            },
+            'Adhafera': {
+                photo: 'photos/adhafera.jpg',
+                title: 'Adhafera - 狮子的鬃毛 🚡',
+                memory: '缆车摇摆间，你的发丝在风中舞蹈，美得像诗。那个V字手势定格了我们最开心的旅行时光 📸💛'
+            },
+            'Al Jabhah': {
+                photo: 'photos/al-jabhah.jpg',
+                title: 'Al Jabhah - 狮子的前额 🌃',
+                memory: '华灯初上的城市里，你是我眼中最亮的那盏灯。夜幕下的合影，记录着我们最浪漫的都市时光 🌆💫'
+            },
+            'Chertan': {
+                photo: 'photos/chertan.jpg',
+                title: 'Chertan - 狮子的肋骨 💏',
+                memory: '那个拥抱的瞬间，我听到了两颗心同步跳动的声音。现代建筑见证了我们最甜蜜的相拥时刻 🏢💓'
+            },
+            'Rasalas': {
+                photo: 'photos/rasalas.jpg',
+                title: 'Rasalas - 狮子的头顶 🏔️',
+                memory: '长白山下许下的诺言，要和你看遍人间所有的雪景。那个浪漫的比心手势，是我们爱情最美的印章 🤍👫'
+            }
+        };
+
+        // 显示回忆弹窗
+        function showMemoryModal(starData) {
+            console.log('📸 showMemoryModal 函数被调用，星星:', starData.name);
+            const modal = document.getElementById('memory-modal');
+            const card = document.getElementById('memory-card');
+            const imageContainer = document.getElementById('memory-image');
+            const title = document.getElementById('memory-title');
+            const description = document.getElementById('memory-description');
+            
+            console.log('🔍 回忆弹窗DOM元素检查:', {
+                modal: !!modal,
+                card: !!card, 
+                imageContainer: !!imageContainer,
+                title: !!title,
+                description: !!description
+            });
+            
+            // 添加到已点击星星列表
+            clickedStars.add(starData.name);
+            console.log(`已点击星星: ${clickedStars.size}/9`);
+            
+            // 更新进度指示器
+            updateProgressIndicator();
+            
+            // 检查是否所有星星都被点击
+            if (clickedStars.size === 9 && !allStarsClickedTriggered) {
+                allStarsClickedTriggered = true;
+                setTimeout(() => {
+                    triggerCompletionEasterEgg();
+                }, 1000); // 延迟1秒触发彩蛋
+            }
+            
+            const memory = starMemories[starData.name] || {
+                photo: null,
+                title: starData.name + ' 的回忆',
+                memory: `这是关于${starData.name}星的美好回忆...`
+            };
+            
+            // 清空之前的内容
+            imageContainer.innerHTML = '';
+            
+            // 尝试加载照片
+            const img = new Image();
+            img.onload = function() {
+                imageContainer.innerHTML = `<img src="${memory.photo}" alt="${starData.name}的回忆">`;
+            };
+            img.onerror = function() {
+                // 照片加载失败时显示占位符
+                imageContainer.innerHTML = `
+                    <div class="placeholder-text">
+                        <div style="font-size: 2rem;">📸</div>
+                        <div>${starData.name} 的照片</div>
+                        <div style="font-size: 0.8rem; margin-top: 10px;">
+                            请将照片命名为 ${starData.name.toLowerCase()}.jpg<br/>
+                            并放置在 photos/ 文件夹中
+                        </div>
+                    </div>
+                `;
+            };
+            
+            if (memory.photo) {
+                img.src = memory.photo;
+            } else {
+                img.onerror();
+            }
+            
+            title.textContent = memory.title;
+            description.textContent = memory.memory;
+            
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                card.classList.add('show');
+            }, 100);
+        }
+
+        // 关闭祝福弹窗
+        function closeBlessingModal(event) {
+            if (event.target.id === 'blessing-modal') {
+                const modal = document.getElementById('blessing-modal');
+                const content = document.getElementById('blessing-content');
+                
+                content.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        // 关闭回忆弹窗
+        function closeMemoryModal(event) {
+            if (event.target.id === 'memory-modal') {
+                const modal = document.getElementById('memory-modal');
+                const card = document.getElementById('memory-card');
+                
+                card.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        // 星座连线流光动画
+        function animateConstellationLines() {
+            // 简化为轻微淡入效果
+            leoLines.forEach((line, index) => {
+                const material = line.material;
+                const base = material.opacity;
+                material.opacity = 0;
+                const start = performance.now();
+                const duration = 800;
+                const step = (t) => {
+                    const p = Math.min((t - start) / duration, 1);
+                    material.opacity = base * p;
+                    if (p < 1) requestAnimationFrame(step);
+                };
+                setTimeout(() => requestAnimationFrame(step), index * 120);
+            });
+        }
+
+        // 开场动画
+        function startOpeningAnimation() {
+            const openingMask = document.getElementById('opening-mask');
+            const music = document.getElementById('background-music');
+            
+            // 4秒后开始淡出开场动画
+            setTimeout(() => {
+                openingMask.style.opacity = '0';
+                
+                // 开始播放音乐
+                if (music) {
+                    music.play().catch(e => {
+                        console.log('音乐自动播放被阻止，需要用户交互');
+                    });
+                    musicPlaying = true;
+                }
+                
+                setTimeout(() => {
+                    openingMask.classList.add('hidden');
+                    
+                    // 聚焦到狮子座
+                    focusOnLeo();
+                }, 2000);
+            }, 4000);
+        }
+
+        // 高级缓动函数
+        const EasingFunctions = {
+            // 优雅的进入动画
+            easeOutCubic: t => 1 - Math.pow(1 - t, 3),
+            // 弹性动画
+            easeOutBack: t => {
+                const c1 = 1.70158;
+                const c3 = c1 + 1;
+                return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+            },
+            // 流畅的双向动画
+            easeInOutQuart: t => t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2,
+            // 细腻的浮动动画
+            easeInOutSine: t => -(Math.cos(Math.PI * t) - 1) / 2
+        };
+
+        // 聚焦到狮子座
+        function focusOnLeo() {
+            if (leoStars.length > 0) {
+                // 计算狮子座中心点
+                const center = new THREE.Vector3();
+                leoStars.forEach(star => {
+                    center.add(star.position);
+                });
+                center.divideScalar(leoStars.length);
+                
+                // 调整相机位置让狮子座呈现横向姿态（头朝右上）
+                const startPosition = camera.position.clone();
+                const startTarget = controls.target.clone();
+                
+                // 目标位置：最佳距离观察狮子座，让它占据画面主要部分
+                const targetPosition = center.clone().add(new THREE.Vector3(-2, -3, 4));
+                const targetLookAt = center.clone();
+                
+                let progress = 0;
+                const duration = 80; // 帧数，约2.7秒@30fps
+                
+                const animateCamera = () => {
+                    progress += 1 / duration;
+                    
+                    if (progress <= 1) {
+                        // 使用高级缓动函数，先快后慢的优雅过渡
+                        const easeProgress = EasingFunctions.easeOutCubic(progress);
+                        
+                        camera.position.lerpVectors(startPosition, targetPosition, easeProgress);
+                        controls.target.lerpVectors(startTarget, targetLookAt, easeProgress);
+                        controls.update();
+                        requestAnimationFrame(animateCamera);
+                    } else {
+                        camera.position.copy(targetPosition);
+                        controls.target.copy(targetLookAt);
+                        controls.update();
+                        
+                        // 聚焦完成后添加微妙的呼吸动画
+                        addCameraBreathingEffect();
+                    }
+                };
+                animateCamera();
+            }
+        }
+
+        // 添加相机呼吸效果
+        function addCameraBreathingEffect() {
+            let breathTime = 0;
+            const originalPosition = camera.position.clone();
+            
+            const breathe = () => {
+                breathTime += 0.01;
+                const breathOffset = Math.sin(breathTime) * 0.02;
+                camera.position.z = originalPosition.z + breathOffset;
+                controls.update();
+                requestAnimationFrame(breathe);
+            };
+            
+            // 延迟启动呼吸效果
+            setTimeout(breathe, 1000);
+        }
+
+        // 音乐控制
+        function toggleMusic() {
+            console.log('🎵 音乐控制按钮被点击');
+            const music = document.getElementById('background-music');
+            const control = document.getElementById('music-control');
+            
+            console.log('🎶 当前音乐状态:', {
+                musicPlaying: musicPlaying,
+                musicElement: !!music,
+                controlElement: !!control
+            });
+            
+            if (musicPlaying) {
+                music.pause();
+                control.textContent = '🔇 音乐';
+                musicPlaying = false;
+                console.log('⏸️ 音乐已暂停');
+            } else {
+                music.play().then(() => {
+                    control.textContent = '🎵 音乐';
+                    musicPlaying = true;
+                    console.log('▶️ 音乐开始播放');
+                }).catch(e => {
+                    console.log('❌ 音乐播放失败:', e);
+                    control.textContent = '🔇 播放失败';
+                });
+            }
+        }
+
+        // 窗口大小改变
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // 动画循环 - 性能优化版
+        let lastRenderTime = 0;
+        let frameCount = 0;
+        const targetFPS = 60;
+        const renderInterval = 1000 / targetFPS;
+        
+        function animate(currentTime) {
+            requestAnimationFrame(animate);
+            
+            // 限制渲染频率，避免不必要的计算
+            if (currentTime - lastRenderTime >= renderInterval) {
+                frameCount++;
+                
+                // 更新控制器
+                if (controls) controls.update();
+                
+                // 星空缓慢旋转（降低频率到每10帧一次）
+                if (starField && frameCount % 10 === 0) {
+                    starField.rotation.y += 0.001;
+                }
+                
+                // 狮子座星星闪烁效果（降低频率到每5帧一次）
+                if (frameCount % 5 === 0) {
+                    const time = currentTime * 0.001;
+                    leoStars.forEach((star, index) => {
+                        if (star.material) {
+                            // 减弱闪烁，避免刺眼
+                            star.material.opacity = 0.9 + Math.sin(time * 0.6 + index * 0.3) * 0.03;
+                        }
+                        // 更新星星光晕层
+                        if (star.userData.glowLayers) {
+                            star.userData.glowLayers.forEach((glow, layerIndex) => {
+                                if (glow.material) {
+                                    const base = glow.userData && glow.userData.baseOpacity ? glow.userData.baseOpacity : 0.5;
+                                    glow.material.opacity = base + Math.sin(time * 0.4 + index) * 0.06;
+                                }
+                            });
+                        }
+                    });
+                }
+                
+                // 已移除流光粒子更新
+                
+                // 渲染场景
+                if (renderer && scene && camera) {
+                    renderer.render(scene, camera);
+                }
+                
+                lastRenderTime = currentTime;
+            }
+        }
+
+        // 触发完成彩蛋
+        function triggerCompletionEasterEgg() {
+            console.log('触发完成彩蛋！');
+            
+            // 1. 让狮子座发出更亮的光
+            enhanceLeoGlow();
+            
+            // 2. 显示隐藏祝福
+            setTimeout(() => {
+                showHiddenBlessing();
+            }, 2000);
+        }
+
+        // 增强狮子座光芒
+        function enhanceLeoGlow() {
+            leoStars.forEach(star => {
+                // 为每颗星星添加更亮的光效
+                const position = star.position;
+                
+                // 创建更亮的光芒
+                const brightGlowGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+                const brightGlowMaterial = new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const brightGlow = new THREE.Mesh(brightGlowGeometry, brightGlowMaterial);
+                brightGlow.position.copy(position);
+                
+                scene.add(brightGlow);
+                
+                // 动画效果
+                let scale = 1;
+                const animateBrightGlow = () => {
+                    scale += 0.02;
+                    brightGlow.scale.setScalar(scale);
+                    brightGlowMaterial.opacity = Math.max(0, 0.8 - (scale - 1) * 0.4);
+                    
+                    if (scale < 3) {
+                        requestAnimationFrame(animateBrightGlow);
+                    } else {
+                        scene.remove(brightGlow);
+                    }
+                };
+                
+                setTimeout(() => animateBrightGlow(), Math.random() * 1000);
+            });
+        }
+
+        // 显示隐藏祝福
+        function showHiddenBlessing() {
+            // 创建隐藏祝福弹窗
+            const hiddenModal = document.createElement('div');
+            hiddenModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 600;
+                backdrop-filter: blur(15px);
+                opacity: 0;
+                transition: opacity 2s ease-out;
+            `;
+            
+            const hiddenContent = document.createElement('div');
+            hiddenContent.style.cssText = `
+                text-align: center;
+                color: #fff;
+                font-family: 'Dancing Script', cursive;
+                font-size: 3rem;
+                font-weight: 700;
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+                animation: sparkle 2s ease-in-out infinite;
+                opacity: 0;
+                transform: translateY(30px);
+                transition: all 2s ease-out;
+            `;
+            
+            hiddenContent.innerHTML = `
+                <div style="margin-bottom: 30px;">🌟</div>
+                <div>你的每一个瞬间，</div>
+                <div>都比星星更亮</div>
+                <div style="margin-top: 30px; font-size: 2rem;">✨💕✨</div>
+            `;
+            
+            hiddenModal.appendChild(hiddenContent);
+            document.body.appendChild(hiddenModal);
+            
+            // 显示动画
+            setTimeout(() => {
+                hiddenModal.style.opacity = '1';
+                hiddenContent.style.opacity = '1';
+                hiddenContent.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // 开始星空旋转效果
+            setTimeout(() => {
+                startFinalRotation();
+            }, 5000);
+            
+            // 8秒后自动关闭
+            setTimeout(() => {
+                hiddenModal.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(hiddenModal);
+                }, 2000);
+            }, 8000);
+        }
+
+        // 更新进度指示器
+        function updateProgressIndicator() {
+            const progressCount = document.getElementById('progress-count');
+            const progressFill = document.getElementById('progress-fill');
+            
+            if (progressCount && progressFill) {
+                progressCount.textContent = clickedStars.size;
+                const percentage = (clickedStars.size / 9) * 100;
+                progressFill.style.width = percentage + '%';
+                
+                // 如果接近完成，添加特殊效果
+                if (clickedStars.size >= 7) {
+                    progressFill.style.background = 'linear-gradient(90deg, #ff6b9d, #ffd700)';
+                    progressFill.style.boxShadow = '0 0 15px rgba(255, 107, 157, 0.6)';
+                }
+            }
+        }
+
+        // 高级点击波纹效果
+        function addRippleEffect(x, y, color = 'rgba(255, 255, 255, 0.4)') {
+            const ripple = document.createElement('div');
+            const size = 80 + Math.random() * 40; // 随机大小
+            
+            ripple.style.cssText = `
+                position: fixed;
+                border-radius: 50%;
+                background: radial-gradient(circle, ${color} 0%, transparent 70%);
+                transform: scale(0);
+                left: ${x - size/2}px;
+                top: ${y - size/2}px;
+                width: ${size}px;
+                height: ${size}px;
+                pointer-events: none;
+                z-index: 1000;
+                animation: premiumRipple 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+                box-shadow: 0 0 20px ${color};
+            `;
+            
+            document.body.appendChild(ripple);
+            
+            ripple.addEventListener('animationend', () => {
+                document.body.removeChild(ripple);
+            });
+            
+            // 添加额外的粒子效果
+            addParticleExplosion(x, y, color);
+        }
+
+        // 粒子爆炸效果
+        function addParticleExplosion(x, y, color) {
+            const particleCount = 6 + Math.random() * 4;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                const angle = (Math.PI * 2 * i) / particleCount;
+                const velocity = 40 + Math.random() * 30;
+                const size = 2 + Math.random() * 3;
+                
+                particle.style.cssText = `
+                    position: fixed;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: ${color};
+                    border-radius: 50%;
+                    left: ${x}px;
+                    top: ${y}px;
+                    pointer-events: none;
+                    z-index: 999;
+                    animation: particleFloat 1.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+                    transform-origin: center center;
+                `;
+                
+                particle.style.setProperty('--dx', Math.cos(angle) * velocity + 'px');
+                particle.style.setProperty('--dy', Math.sin(angle) * velocity + 'px');
+                
+                document.body.appendChild(particle);
+                
+                particle.addEventListener('animationend', () => {
+                    document.body.removeChild(particle);
+                });
+            }
+        }
+
+        // 添加动画关键帧
+        const premiumStyleSheet = document.createElement('style');
+        premiumStyleSheet.textContent = `
+            @keyframes premiumRipple {
+                0% { 
+                    transform: scale(0); 
+                    opacity: 1; 
+                }
+                100% { 
+                    transform: scale(1); 
+                    opacity: 0; 
+                }
+            }
+            
+            @keyframes particleFloat {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(var(--dx), var(--dy)) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(premiumStyleSheet);
+
+        // 最终星空旋转效果
+        function startFinalRotation() {
+            console.log('🎬 开始最终旋转淡出效果');
+            let rotationProgress = 0;
+            const rotationDuration = 6000; // 6秒
+            const startTime = performance.now();
+            
+            function rotateAndFade(currentTime) {
+                const elapsed = currentTime - startTime;
+                rotationProgress = Math.min(elapsed / rotationDuration, 1);
+                
+                if (scene) {
+                    // 缓慢旋转整个场景
+                    scene.rotation.y += 0.003 * (1 - rotationProgress * 0.5);
+                    scene.rotation.x += 0.0015 * (1 - rotationProgress * 0.5);
+                    
+                    // 逐渐淡出
+                    if (rotationProgress > 0.4) {
+                        const fadeProgress = (rotationProgress - 0.4) / 0.6;
+                        renderer.domElement.style.opacity = 1 - fadeProgress;
+                    }
+                }
+                
+                if (rotationProgress < 1) {
+                    requestAnimationFrame(rotateAndFade);
+                } else {
+                    console.log('✨ 最终效果完成，显示结束画面');
+                    showFinalEndingScreen();
+                }
+            }
+            
+            requestAnimationFrame(rotateAndFade);
+        }
+        
+        // 最终结束画面
+        function showFinalEndingScreen() {
+            console.log('🎉 显示最终结束画面');
+            
+            // 创建结束画面遮罩
+            const endingScreen = document.createElement('div');
+            endingScreen.id = 'final-ending-screen';
+            endingScreen.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                opacity: 0;
+                transition: opacity 2s ease-in-out;
+            `;
+            
+            // 创建最终祝福文字
+            const finalMessage = document.createElement('div');
+            finalMessage.style.cssText = `
+                font-family: 'Dancing Script', cursive;
+                font-size: 3.5rem;
+                font-weight: 600;
+                color: #fff;
+                text-align: center;
+                text-shadow: 0 0 20px rgba(255, 215, 0, 0.8),
+                           0 0 40px rgba(255, 215, 0, 0.6),
+                           0 0 60px rgba(255, 215, 0, 0.4);
+                letter-spacing: 2px;
+                line-height: 1.3;
+                margin-bottom: 2rem;
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+                transition: all 3s ease-out;
+            `;
+            finalMessage.innerHTML = '我的宝贝生日快乐！<br><span style="font-size: 2rem; color: rgba(255, 215, 0, 0.9);">愿你永远如星光般闪耀 ✨</span>';
+            
+            // 创建装饰性粒子效果
+            const particlesContainer = document.createElement('div');
+            particlesContainer.style.cssText = `
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                overflow: hidden;
+            `;
+            
+            // 添加多个闪烁粒子
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: 4px;
+                    height: 4px;
+                    background: radial-gradient(circle, #ffd700, transparent);
+                    border-radius: 50%;
+                    animation: finalSparkle ${2 + Math.random() * 3}s infinite ease-in-out;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 2}s;
+                `;
+                particlesContainer.appendChild(particle);
+            }
+            
+            // 添加CSS动画
+            const finalStyles = document.createElement('style');
+            finalStyles.textContent = `
+                @keyframes finalSparkle {
+                    0%, 100% { opacity: 0; transform: scale(0); }
+                    50% { opacity: 1; transform: scale(1); }
+                }
+                
+                @media (max-width: 768px) {
+                    #final-ending-screen div:first-child {
+                        font-size: 2.5rem !important;
+                    }
+                    #final-ending-screen span {
+                        font-size: 1.5rem !important;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    #final-ending-screen div:first-child {
+                        font-size: 2rem !important;
+                        padding: 0 20px;
+                    }
+                    #final-ending-screen span {
+                        font-size: 1.2rem !important;
+                    }
+                }
+            `;
+            document.head.appendChild(finalStyles);
+            
+            // 组装并添加到页面
+            endingScreen.appendChild(particlesContainer);
+            endingScreen.appendChild(finalMessage);
+            document.body.appendChild(endingScreen);
+            
+            // 淡入动画
+            setTimeout(() => {
+                endingScreen.style.opacity = '1';
+            }, 100);
+            
+            // 文字出现动画
+            setTimeout(() => {
+                finalMessage.style.opacity = '1';
+                finalMessage.style.transform = 'translateY(0) scale(1)';
+            }, 1000);
+            
+            // 隐藏所有其他元素
+            setTimeout(() => {
+                const elementsToHide = ['canvas-container', 'music-control', 'progress-indicator', 'controls-hint', 'constellation-tooltip'];
+                elementsToHide.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) element.style.display = 'none';
+                });
+            }, 2000);
+            
+            console.log('🎊 最终结束画面显示完成');
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('load', () => {
+            console.log('📄 页面加载完成，开始初始化...');
+            
+            // 检查Three.js是否加载
+            if (typeof THREE === 'undefined') {
+                console.error('❌ Three.js库未加载！');
+                alert('Three.js库加载失败，请检查网络连接或刷新页面');
+                return;
+            }
+            console.log('✅ Three.js库加载成功，版本:', THREE.REVISION);
+            
+            // 检查必要的DOM元素
+            const requiredElements = [
+                'canvas-container',
+                'opening-mask', 
+                'opening-text',
+                'blessing-modal',
+                'memory-modal'
+            ];
+            
+            let missingElements = [];
+            requiredElements.forEach(id => {
+                if (!document.getElementById(id)) {
+                    missingElements.push(id);
+                }
+            });
+            
+            if (missingElements.length > 0) {
+                console.error('❌ 缺少必要的DOM元素:', missingElements);
+                alert('页面结构不完整，缺少元素：' + missingElements.join(', '));
+                return;
+            }
+            console.log('✅ 所有必要的DOM元素都存在');
+            
+            // 开始初始化
+            init();
+        });
+    </script>
+</body>
+</html>

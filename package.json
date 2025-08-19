@@ -1,0 +1,31 @@
+{
+  "name": "birthday-star-blessing",
+  "version": "1.0.0",
+  "description": "李星娅的生日祝福星空网站 - 交互式Three.js星空体验",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8000 -c-1",
+    "dev": "http-server -p 8000 -c-1 -o"
+  },
+  "keywords": [
+    "birthday",
+    "blessing",
+    "three.js",
+    "star",
+    "constellation",
+    "leo",
+    "interactive"
+  ],
+  "author": "为李星娅定制",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "本地项目"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
