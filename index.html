@@ -75,6 +75,78 @@
                          0 2px 6px rgba(255, 255, 255, 0.25);
         }
 
+        /* 点击继续提示 */
+        #click-continue {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            opacity: 0;
+            animation: clickHint 2s infinite ease-in-out;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #click-continue:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        @keyframes clickHint {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* 手机端自适应换行 */
+        @media (max-width: 768px) {
+            #opening-text {
+                font-size: 1.8rem;
+                padding: 0 20px;
+                line-height: 1.4;
+            }
+            
+            #click-continue {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+                bottom: 15%;
+            }
+            
+            .mobile-break {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #opening-text {
+                font-size: 1.5rem;
+                padding: 0 15px;
+            }
+            
+            #click-continue {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+                bottom: 12%;
+            }
+        }
+
+        /* 默认桌面端隐藏手机换行 */
+        .mobile-break {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-break {
+                display: block;
+            }
+        }
+
         @keyframes sophisticatedFadeIn {
             0% { 
                 opacity: 0; 
@@ -667,6 +739,7 @@
         <!-- 开场动画 -->
         <div id="opening-mask">
             <div id="opening-text">为李星娅点亮星空</div>
+            <div id="click-continue" style="display: none;">点击继续 ✨</div>
         </div>
 
         <!-- Three.js 画布容器 -->
@@ -1457,47 +1530,47 @@
             'Regulus': {
                 photo: 'photos/regulus.jpg',
                 title: 'Regulus - 王者之星 ⭐',
-                memory: '就像繁花盛开的那一刻，你的笑容是我心中最亮的光。在这个充满温馨花朵的地方，我们的爱情也如花般绽放 🌸✨'
+                memory: '吃着肉串逛夜市，我们就是这么爽！ 🌸✨'
             },
             'Denebola': {
                 photo: 'photos/denebola.jpg', 
                 title: 'Denebola - 狮子的尾巴 🦁',
-                memory: '在茫茫戈壁中，每次回头都能看到你灿烂的身影。那个沙漠午后，你俏皮的姿势定格了我们青春最美的时光 🏜️💫'
+                memory: '在茫茫戈壁中，每次回头都能看到你灿烂的身影。 🏜️💫'
             },
             'Algieba': {
                 photo: 'photos/algieba.jpg',
                 title: 'Algieba - 狮子的额头 🌄',
-                memory: '站在山巅与你并肩，仿佛拥有了整个世界的风光。那片壮美的戈壁高地见证了我们的山盟海誓 ⛰️💕'
+                memory: '在66号公路开心的合照，我的宝贝就是最美的风景 ⛰️💕'
             },
             'Zosma': {
                 photo: 'photos/zosma.jpg',
                 title: 'Zosma - 狮子的腰部 ☁️',
-                memory: '在那片蔚蓝的天空下，时光静好，有你就是晴天。现代建筑也比不过你眼中的星光璀璨 🏙️💙'
+                memory: '新年的第一次日出，和你一起分享 🏙️💙'
             },
             'Algenubi': {
                 photo: 'photos/algenubi.jpg',
                 title: 'Algenubi - 狮子的鼻子 ❄️',
-                memory: '雪花飞舞的日子里，你嘟嘴的模样比雪花更可爱。毛绒帽子下的你，像个冬日里的小天使 ☃️😘'
+                memory: '毛绒帽子下的你，像个冬日里的小天使 ☃️😘'
             },
             'Adhafera': {
                 photo: 'photos/adhafera.jpg',
                 title: 'Adhafera - 狮子的鬃毛 🚡',
-                memory: '缆车摇摆间，你的发丝在风中舞蹈，美得像诗。那个V字手势定格了我们最开心的旅行时光 📸💛'
+                memory: '平安乘坐缆车，我们就是最好的情侣 📸💛'
             },
             'Al Jabhah': {
                 photo: 'photos/al-jabhah.jpg',
                 title: 'Al Jabhah - 狮子的前额 🌃',
-                memory: '华灯初上的城市里，你是我眼中最亮的那盏灯。夜幕下的合影，记录着我们最浪漫的都市时光 🌆💫'
+                memory: '华灯初上的城市里，你是我眼中最亮的那盏灯 🌆💫'
             },
             'Chertan': {
                 photo: 'photos/chertan.jpg',
                 title: 'Chertan - 狮子的肋骨 💏',
-                memory: '那个拥抱的瞬间，我听到了两颗心同步跳动的声音。现代建筑见证了我们最甜蜜的相拥时刻 🏢💓'
+                memory: '受伤的我抱着你，你是我最坚强的后盾 🏢💓'
             },
             'Rasalas': {
                 photo: 'photos/rasalas.jpg',
                 title: 'Rasalas - 狮子的头顶 🏔️',
-                memory: '长白山下许下的诺言，要和你看遍人间所有的雪景。那个浪漫的比心手势，是我们爱情最美的印章 🤍👫'
+                memory: '长白山下浪漫比心，是我们爱情最美的印章 🤍👫'
             }
         };
 
@@ -1623,10 +1696,23 @@
         // 开场动画
         function startOpeningAnimation() {
             const openingMask = document.getElementById('opening-mask');
+            const clickContinue = document.getElementById('click-continue');
             const music = document.getElementById('background-music');
             
-            // 4秒后开始淡出开场动画
+            // 4秒后显示点击继续按钮
             setTimeout(() => {
+                clickContinue.style.display = 'block';
+                setTimeout(() => {
+                    clickContinue.style.opacity = '1';
+                }, 100);
+            }, 4000);
+            
+            // 点击继续事件
+            clickContinue.addEventListener('click', () => {
+                // 隐藏点击提示
+                clickContinue.style.opacity = '0';
+                
+                // 开始淡出开场动画
                 openingMask.style.opacity = '0';
                 
                 // 开始播放音乐
@@ -1643,7 +1729,7 @@
                     // 聚焦到狮子座
                     focusOnLeo();
                 }, 2000);
-            }, 4000);
+            });
         }
 
         // 高级缓动函数
@@ -2111,7 +2197,7 @@
                 transform: translateY(30px) scale(0.9);
                 transition: all 3s ease-out;
             `;
-            finalMessage.innerHTML = '我的宝贝生日快乐！<br><span style="font-size: 2rem; color: rgba(255, 215, 0, 0.9);">愿你永远如星光般闪耀 ✨</span>';
+            finalMessage.innerHTML = '祝我的宝贝生日快乐！<br><span style="font-size: 2rem; color: rgba(255, 215, 0, 0.9); line-height: 1.6; word-wrap: break-word; hyphens: auto;">想说的话太多，却又觉得千言万语都显得平凡。<br class="mobile-break">我们一起走过那么多地方，留下了无数珍贵的回忆。<br class="mobile-break">希望这个充满我们回忆的星空礼物能让你开心，<br class="mobile-break">愿你永远像你的名字一样，<br class="mobile-break">在人生的每个夜晚都星光闪耀 ✨</span>';
             
             // 创建装饰性粒子效果
             const particlesContainer = document.createElement('div');
